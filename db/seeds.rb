@@ -5,3 +5,71 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+# Clean db
+Booking.destroy_all
+Room.destroy_all
+Place.destroy_all
+Manager.destroy_all
+Client.destroy_all
+
+# Create manager
+manager = Manager.new(name:"Claire Antoine")
+puts "manager #{manager.name} was created" if manager.save
+
+# Create place
+la_ferme = Place.new(name:"La ferme des animaux")
+la_ferme.manager = manager
+puts "Place #{la_ferme.name} was created" if la_ferme.save
+
+# Create rooms
+rooms = [
+  "La basse cour",
+  "L'écurie",
+  "L'enclos de Marguerite"
+]
+
+rooms.each do |room|
+  r = Room.new(name: room)
+  r.place = la_ferme
+  puts "Room #{r.name} was created" if r.save
+end
+
+# Create client
+
+clients = [
+  {name: "Limagrain"},
+  {name: "Michelin"}
+]
+
+clients.each do |client|
+  c = Client.new(client)
+  puts "Client #{c.name} was created" if c.save
+end
+
+# Create bookings
+bookings = [
+  {
+    client: { name: "Limagrain"},
+    room: { name: "L'écurie"},
+    start_time: DateTime.new(2017, 04, 07, 10),
+    end_time: DateTime.new(2017, 04, 07, 13)
+  },
+  {
+    client: { name: "Michelin"},
+    room: { name: "L'écurie"},
+    start_time: DateTime.new(2017, 04, 07, 15),
+    end_time: DateTime.new(2017, 04, 07, 17)
+  }
+]
+
+bookings.each do |booking|
+  b = Booking.new()
+  b.client = Client.find_by(booking[:client])
+  b.room = Room.find_by(booking[:room])
+  b.start_time = booking[:start_time]
+  b.end_time = booking[:end_time]
+  puts "#{b.client.name} booked #{b.room.name} from #{b.start_time} to #{b.end_time}" if b.save
+end
+
+
