@@ -1,6 +1,5 @@
 class BookingsController < ApplicationController
   def index
-    # Get current_user room => to do add devise
     @manager = Manager.find(params[:manager_id])
     @rooms = @manager.rooms
     @selected_date = params[:selected_date]||Date.today
@@ -36,7 +35,6 @@ class BookingsController < ApplicationController
 
   end
 
-  # à refactoriser et déplacer
   def build_start_time
     DateTime.new(booking_params["start_time(1i)"].to_i,
                 booking_params["start_time(2i)"].to_i,
@@ -46,7 +44,6 @@ class BookingsController < ApplicationController
     )
   end
 
-  # A refactoriser et déplacer
   def build_end_time
     DateTime.new(booking_params["end_time(1i)"].to_i,
                 booking_params["end_time(2i)"].to_i,
