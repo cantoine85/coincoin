@@ -1,7 +1,8 @@
 class BookingsController < ApplicationController
   def index
     # Get current_user room => to do add devise
-    @rooms = Room.all
+    @manager = Manager.find(params[:manager_id])
+    @rooms = @manager.rooms
     @selected_date = params[:selected_date]||Date.today
     @booking = Booking.new
   end
@@ -13,7 +14,7 @@ class BookingsController < ApplicationController
     booking.start_time = build_start_time
     booking.end_time = build_end_time
     booking.save
-    redirect_to bookings_path, selected_date: build_start_time
+    redirect_to manager_bookings_path(params[:manager_id], selected_date: build_start_time.to_date)
   end
 
   private
