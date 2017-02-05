@@ -10,9 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20170202104315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "bookings", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "room_id"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_bookings_on_client_id", using: :btree
+    t.index ["room_id"], name: "index_bookings_on_room_id", using: :btree
+  end
+
+  create_table "clients", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "managers", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "places", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "manager_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["manager_id"], name: "index_places_on_manager_id", using: :btree
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "place_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_rooms_on_place_id", using: :btree
+  end
+
+  add_foreign_key "bookings", "clients"
+  add_foreign_key "bookings", "rooms"
+  add_foreign_key "places", "managers"
+  add_foreign_key "rooms", "places"
 end

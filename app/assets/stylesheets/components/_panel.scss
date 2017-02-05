@@ -1,0 +1,56 @@
+.panel {
+  box-shadow: 1px 1px rgba(0,0,0,0.2);
+}
+
+.panel-title {
+  background: $black;
+  border-radius: 2px;
+  color: white;
+  font-weight: 200;
+  text-align: center;
+  padding: 15px 0px;
+  margin-bottom: 30px;
+}
+
+.panel-body {
+  list-style: none;
+  position: relative;
+  padding: 0;
+  margin-left: 35px;
+  margin-right: 10px;
+}
+
+.panel-slot {
+  border-top: 1px solid $orange;
+  position: relative;
+  height: 40px;
+  &:hover {
+    background: $orange;
+  }
+}
+
+.panel-hour {
+  font-size: 12px;
+  font-weight: 200;
+  color: white;
+  background-color: $black;
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  height: 25px;
+  width: 25px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.panel-booking {
+  background-color: $orange;
+  position: absolute;
+  padding: 10px;
+  border-radius: 2px;
+  border-bottom: 1px solid white;
+  color: white;
+  right: 0px;
+  left: 20px;
+}
