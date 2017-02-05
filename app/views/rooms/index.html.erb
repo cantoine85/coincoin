@@ -1,0 +1,36 @@
+<div class="wrapper">
+  <%= form_tag("/rooms", method: "get") do %>
+    <%= label_tag(:selected_date, "Check availability on:") %>
+    <%= date_field_tag(:selected_date, @selected_date) %>
+    <%= submit_tag("Search") %>
+  <% end %>
+</div>
+<div class="container">
+  <div class="row">
+    <% @rooms.each do |room|  %>
+      <div class="col-xs-12 col-sm-4">
+        <div class="panel">
+          <div class="panel-title">
+            <%= room.name %>
+          </div>
+          <ul class="panel-body">
+            <% (8..23).each do |hour|  %>
+            <li class="panel-slot">
+              <div class="panel-hour">
+                <%= hour %>
+              </div>
+            </li>
+            <% end %>
+            <% room.bookings.where('start_time >= ? AND end_time < ?',
+          @selected_date, @selected_date.to_date + 1.day).each do |booking|  %>
+              <div class="panel-booking" style="top:<%= 40*(booking.start_time.hour - 8)%>px; height: <%= 40*(booking.end_time-booking.start_time)/3600 %>px">
+                <%= booking.client.name %>
+              </div>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+

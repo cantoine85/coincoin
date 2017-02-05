@@ -1,0 +1,68 @@
+<div class="wrapper">
+  <%= form_tag("/bookings", method: "get") do %>
+    <%= label_tag(:selected_date, "Check availability on:") %>
+    <%= date_field_tag :selected_date, @selected_date %>
+    <%= submit_tag "Search", class:"btn btn-primary" %>
+  <% end %>
+</div>
+<div class="container">
+  <div class="row">
+    <% @rooms.each do |room|  %>
+      <div class="col-xs-12 col-sm-4">
+        <div class="panel">
+          <div class="panel-title">
+            <%= room.name %>
+          </div>
+          <ul class="panel-body">
+            <% (8..23).each do |hour|  %>
+              <li class="panel-slot" data-toggle="modal" data-target="#ExampleModal" data-start=<%=  sprintf '%02d', hour %> data-room-id=<%= room.id %> %>
+                <div class="panel-hour">
+                  <%=  sprintf '%02d', hour %>
+                </div>
+              </li>
+            <% end %>
+            <% room.bookings.where('start_time >= ? AND end_time < ?',
+          @selected_date, @selected_date.to_date + 1.day).each do |booking|  %>
+              <div class="panel-booking" style="top:<%= 40*(booking.start_time.hour - 8)%>px; height: <%= 40*(booking.end_time-booking.start_time)/3600 %>px" >
+                <%= booking.client.name %>
+              </div>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="ExampleModal" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Réserver le <%= @selected_date  %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_for(@booking) do |f| %>
+          <div>
+            <%= f.label :start_time %>
+            <%= f.datetime_select :start_time, selected: @selected_date.to_date   %>
+          </div>
+          <div>
+            <%= f.label :end_time %>
+            <%= f.datetime_select :end_time, selected: @selected_date.to_date %>
+          </div>
+          <div>
+            <%= f.label :client %>
+            <%= f.collection_select :client_id, Client.all, :id, :name %>
+          </div>
+            <%= f.hidden_field :room_id %>
+            <%= f.submit "Réserver", class:'btn btn-primary' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
