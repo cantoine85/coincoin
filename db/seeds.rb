@@ -26,7 +26,9 @@ puts "Place #{la_ferme.name} was created" if la_ferme.save
 rooms = [
   "La basse cour",
   "L'écurie",
-  "L'enclos de Marguerite"
+  "L'enclos de Marguerite",
+  "La niche de Médor",
+  "La salle de chasse"
 ]
 
 rooms.each do |room|
@@ -39,7 +41,8 @@ end
 
 clients = [
   {name: "Limagrain"},
-  {name: "Michelin"}
+  {name: "Michelin"},
+  {name: "Le Bivouac"}
 ]
 
 clients.each do |client|
@@ -51,16 +54,30 @@ end
 bookings = [
   {
     client: { name: "Limagrain"},
-    room: { name: "L'écurie"},
-    start_time: DateTime.new(2017, 04, 07, 10),
-    end_time: DateTime.new(2017, 04, 07, 13)
+    room: { name: "La basse cour"},
+    start_time: DateTime.new(2017, 4, 7, 10),
+    end_time: DateTime.new(2017, 4, 7, 13)
   },
   {
     client: { name: "Michelin"},
+    room: { name: "La basse cour"},
+    start_time: DateTime.new(2017, 4, 7, 15),
+    end_time: DateTime.new(2017, 4, 7, 17)
+  },
+
+  {
+    client: { name: "Michelin"},
     room: { name: "L'écurie"},
-    start_time: DateTime.new(2017, 04, 07, 15),
-    end_time: DateTime.new(2017, 04, 07, 17)
-  }
+    start_time: DateTime.new(2017, 4, 7, 15),
+    end_time: DateTime.new(2017, 4, 7, 17)
+  },
+  {
+    client: { name: "Le Bivouac"},
+    room: { name: "L'écurie"},
+    start_time: DateTime.new(2017, 4, 8, 15),
+    end_time: DateTime.new(2017, 4, 8, 17)
+  },
+
 ]
 
 bookings.each do |booking|
